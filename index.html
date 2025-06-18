@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Holesky Block Height</title>
+  <script src="https://cdn.jsdelivr.net/npm/ethers@6.8.1/dist/ethers.umd.min.js"></script>
+</head>
+<body>
+  <h1>Holesky Block Height Viewer</h1>
+  <button id="getBlock">Get Current Block Height</button>
+  <p id="blockNumber">Waiting for action...</p>
+
+  <script>
+    const providerUrl = "https://ethereum-holesky.publicnode.com"; // Public RPC for Holesky
+
+    document.getElementById("getBlock").addEventListener("click", async () => {
+      try {
+        // Request MetaMask connection
+        await window.ethereum.request({ method: "eth_requestAccounts" });
+
+        // Create provider via ethers
+        const provider = new ethers.JsonRpcProvider(providerUrl);
+
+        // Get current block number
+        const blockNumber = await provider.getBlockNumber();
+        document.getElementById("blockNumber").innerText = `Current Block Height: ${blockNumber}`;
+      } catch (err) {
+        console.error(err);
+        document.getElementById("blockNumber").innerText = "Error: " + err.message;
+      }
+    });
+  </script>
+</body>
+</html>

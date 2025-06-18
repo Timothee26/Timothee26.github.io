@@ -1,43 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>ERC20 Transfer</title>
-  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.min.js"></script>
 </head>
 <body>
-  <h2>ERC-20 Token Transfer on Holesky</h2>
-  <button id="transferButton">Send 10 Tokens</button>
-  <p id="status"></p>
+  <h2>Send 10 Tokens (ERC-20)</h2>
+  <button id="transferButton">Transfer</button>
 
   <script>
     const tokenAddress = "0x1dFD3fEcda5aD8AaFed12F8B5418c6F068e08148";
     const recipient = "0x15433DA387451F9dE4565280C85506CB71aF9376";
-    const tokenABI = [
-      "function transfer(address to, uint amount) public returns (bool)",
-      "function decimals() view returns (uint8)"
+    const abi = [
+      "function transfer(address to, uint256 amount) public returns (bool)"
     ];
 
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
-    const contract = new ethers.Contract(tokenAddress, tokenABI, signer);
-
     document.getElementById("transferButton").onclick = async () => {
+      if (typeof window.ethereum === "undefined") {
+        alert("MetaMask is not installed!");
+        return;
+      }
+
+      await window.ethereum.request({ method: "eth_requestAccounts" });
+
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      const contract = new ethers.Contract(tokenAddress, abi, signer);
+
+      // Adjust for decimals (assumes 18)
+      const amount = ethers.utils.parseUnits("10", 18);
+
       try {
-        await window.ethereum.request({ method: 'eth_requestAccounts' });
-        document.getElementById("status").innerText = "Connecting...";
-
-        const decimals = await contract.decimals();
-        const amount = ethers.utils.parseUnits("10", decimals);
-
         const tx = await contract.transfer(recipient, amount);
-        document.getElementById("status").innerText = "Transaction sent. Waiting for confirmation...";
-
+        alert("Transaction sent! Hash: " + tx.hash);
         await tx.wait();
-        document.getElementById("status").innerText = "Transaction confirmed!";
-      } catch (error) {
-        console.error(error);
-        document.getElementById("status").innerText = "Error: " + (error.message || error);
+        alert("Transaction confirmed!");
+      } catch (err) {
+        console.error(err);
+        alert("Transaction failed: " + err.message);
       }
     };
   </script>

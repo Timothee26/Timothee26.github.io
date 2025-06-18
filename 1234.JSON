@@ -2,5 +2,10 @@
     "name": "eternal cake",
     "description": "This cake gives you the power to live forever.",
     "image": "https://timothee26.github.io/cake.jpeg",
-    "lifespan": "eternal"
+    "attributes": [
+    {
+      "trait_type": "lifespan",
+      "value": "eternal"
+    }
+  ]
 }

@@ -1,6 +1,6 @@
 {
     "name": "eternal cake",
     "description": "This cake gives you the power to live forever.",
-    "image": "cake.jpeg",
+    "image": "https://timothee26.github.io/cake.jpeg",
     "lifespan": "eternal"
 }

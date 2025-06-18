@@ -1,7 +1,7 @@
 {
     "name": "eternal cake",
     "description": "This cake gives you the power to live forever.",
-    "image": "https://timothee26.github.io/cake.jpeg",
+    "image": "https://timothee26.github.io/cake.png",
     "attributes": [
     {
       "trait_type": "lifespan",

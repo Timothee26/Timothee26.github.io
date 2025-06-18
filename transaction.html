@@ -53,7 +53,7 @@
         const tx = await contract.transfer(recipient, amount);
         await tx.wait(); // Wait for confirmation
 
-        statusText.textContent = `✅ Transfer complete! Tx Hash: ${tx.hash}`;
+        statusText.textContent = `✅ Transfer complete!`;
       } catch (err) {
         console.error("Transfer failed:", err);
         statusText.textContent = "❌ Error: Transfer failed.";
